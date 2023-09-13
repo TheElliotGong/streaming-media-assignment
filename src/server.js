@@ -9,7 +9,7 @@ const onRequest = (request, response) => {
 
   switch (request.url) {
     case '/index':
-      htmlHandler.getIndex(request, response);
+      htmlHandler.getPage(request, response, htmlHandler.index);
       break;
     case '/page2':
       htmlHandler.getPage(request, response, htmlHandler.page2);
@@ -23,7 +23,6 @@ const onRequest = (request, response) => {
     case '/bird.mp4':
       mediaHandler.getMedia(request, response, mediaHandler.bird, 'video/mp4');
       break;
-    
     case '/party.mp4':
       mediaHandler.getMedia(request, response, mediaHandler.party, 'video/mp4');
       break;

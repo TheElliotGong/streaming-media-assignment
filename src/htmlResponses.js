@@ -8,12 +8,6 @@ const getPage = (request, response, page) => {
   response.write(page);
   response.end();
 };
-
-const getIndex = (request, response) => {
-  response.writeHead(200, { 'Content-type': 'text/html' });
-  response.write(index);
-  response.end();
-};
 module.exports = {
-  getPage, index, page2, page3, getIndex,
+  getPage, index, page2, page3
 };
