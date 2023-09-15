@@ -29,7 +29,7 @@ const getMedia = (request, response, filePath, fileType) => {
     const positions = range.replace(/bytes=/, '').split('-');
 
     const total = stats.size;
-    //Determine start and current end byte positions of file as well as difference in bytes from start to end.
+    //Determine start and end byte positions of file and difference in bytes between start to end.
     let start = parseInt(positions[0], 10);
     const end = positions[1] ? parseInt(positions[1], 10) : total - 1;
 
