@@ -3,6 +3,13 @@ const fs = require('fs');
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const page2 = fs.readFileSync(`${__dirname}/../client/client2.html`);
 const page3 = fs.readFileSync(`${__dirname}/../client/client3.html`);
+
+/**
+ * This funcion returns a web page using the given url on the server
+ * @param {*} request 
+ * @param {*} response 
+ * @param {*} page the html page to return.
+ */
 const getPage = (request, response, page) => {
   response.writeHead(200, { 'Content-type': 'text/html' });
   response.write(page);
