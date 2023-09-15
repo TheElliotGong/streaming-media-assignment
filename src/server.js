@@ -1,17 +1,24 @@
-//Include all necessary scripts and variables.
+/*
+Author: Elliot Gong
+Purpose: Handle server responses to the client browser.
+Date: 9/15/2023
+*/
+
+// Include all necessary scripts and variables.
 const http = require('http');
 const htmlHandler = require('./htmlResponses.js');
 const mediaHandler = require('./mediaResponses.js');
+
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 /**
  * This function handles server responses based on client url requests.
- * @param {*} request 
- * @param {*} response 
+ * @param {*} request
+ * @param {*} response
  */
 const onRequest = (request, response) => {
 //   console.log(request.url);
 
-  //Return appropriate pages/media files based on end url.
+  // Return appropriate pages/media files based on end url.
   switch (request.url) {
     case '/index':
       htmlHandler.getPage(request, response, htmlHandler.index);

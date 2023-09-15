@@ -1,3 +1,10 @@
+/*
+Author: Elliot Gong
+Purpose: Handle server responses that send back media files to the client.
+Date: 9/15/2023
+*/
+
+// Set necessary variables.
 const fs = require('fs');
 
 const party = '../client/party.mp4';
@@ -13,43 +20,43 @@ const path = require('path');
  * @param {*} fileType the media file's type.
  */
 const getMedia = (request, response, filePath, fileType) => {
-  //Locate the file.
+  // Locate the file.
   const file = path.resolve(__dirname, filePath);
-  
+
   fs.stat(file, (err, stats) => {
     if (err) {
-      //If file couldn't be loaded, return a 404 error page.
+      // If file couldn't be loaded, return a 404 error page.
       if (err.code === 'ENOENT') { response.writeHead(404); }
       return response.end(err);
     }
-    //Determine the range of file's bytes we want to return to the user.
+    // Determine the range of file's bytes we want to return to the user.
     let { range } = request.headers;
     if (!range) { range = 'bytes=0-'; }
-    //Split byte array to get beginning and end positions.
+    // Split byte array to get beginning and end positions.
     const positions = range.replace(/bytes=/, '').split('-');
 
     const total = stats.size;
-    //Determine start and end byte positions of file and difference in bytes between start to end.
+    // Determine start and end byte positions of file and difference in bytes between start to end.
     let start = parseInt(positions[0], 10);
     const end = positions[1] ? parseInt(positions[1], 10) : total - 1;
 
     if (start > end) { start = end - 1; }
 
     const chunksize = (end - start) + 1;
-    //Write the valid media file back to the client using the calculated data.
+    // Write the valid media file back to the client using the calculated data.
     response.writeHead(206, {
       'Content-Range': `bytes  ${start}-${end}/${total}`,
       'Accept-Ranges': 'bytes',
       'Content-length': chunksize,
       'Content-Type': fileType,
     });
-    //Stream the file starting from the start and end portions
+    // Stream the file starting from the start and end portions
     const stream = fs.createReadStream(file, { start, end });
-    //Connect file to response upon opening.
+    // Connect file to response upon opening.
     stream.on('open', () => {
       stream.pipe(response);
     });
-    //End response upon file streaming error.
+    // End response upon file streaming error.
     stream.on('error', (streamErr) => {
       response.end(streamErr);
     });
